@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 const Home = () => {
 	const [listOfPosts, setListOfPosts] = useState([]);
-
+	let history = useHistory();
 	useEffect(() => {
 		axios
 			.get("http://localhost:3001/posts")
@@ -15,7 +16,12 @@ const Home = () => {
 		<div>
 			{listOfPosts.map((val, key) => {
 				return (
-					<div className="post">
+					<div
+						className="post"
+						onClick={() => {
+							history.push(`/post/${val.id}`);
+						}}
+					>
 						<div className="title">{val.title}</div>
 						<div className="body">{val.postText}</div>
 						<div className="footer">{val.username}</div>

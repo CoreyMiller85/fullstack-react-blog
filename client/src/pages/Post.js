@@ -20,12 +20,26 @@ const Post = () => {
 
 	const addComment = () => {
 		axios
-			.post("http://localhost:3001/comments", {
-				commentBody: newComment,
-				PostId: id,
-			})
+			.post(
+				"http://localhost:3001/comments",
+				{
+					commentBody: newComment,
+					PostId: id,
+				},
+				{
+					headers: {
+						accessToken: sessionStorage.getItem("accessToken"),
+					},
+				}
+			)
 			.then((response) => {
-				const commentToAdd = { commentBody: newComment };
+				if (response.data.error) {
+					alert(JSON.stringify(response.data.error));
+				}
+				const commentToAdd = {
+					commentBody: newComment,
+					username: response.data.username,
+				};
 				setComments([...comments, commentToAdd]);
 				setNewComment("");
 			});
@@ -58,6 +72,8 @@ const Post = () => {
 						return (
 							<div key={index} className="comment">
 								{value.commentBody}
+								<label>Username: </label>
+								{value.username}
 							</div>
 						);
 					})}

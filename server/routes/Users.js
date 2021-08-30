@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
 				{ username: user.username, id: user.id },
 				"importantsecret"
 			);
-			res.json(accessToken);
+			res.json({ token: accessToken, username: username, id: user.id });
 		});
 	}
 });
@@ -42,4 +42,5 @@ router.post("/login", async (req, res) => {
 router.get("/auth", validateToken, (req, res) => {
 	res.json(req.user);
 });
+
 module.exports = router;

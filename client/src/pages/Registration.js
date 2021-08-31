@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useHistory } from "react-router";
 import axios from "axios";
 import * as Yup from "yup";
 
@@ -8,6 +9,8 @@ function Registration() {
 		username: "",
 		password: "",
 	};
+
+	const history = useHistory();
 
 	const validationSchema = Yup.object().shape({
 		username: Yup.string()
@@ -21,6 +24,7 @@ function Registration() {
 		axios.post("http://localhost:3001/auth", data).then(() => {
 			console.log(data);
 		});
+		history.push("/");
 	};
 
 	return (
